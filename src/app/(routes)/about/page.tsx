@@ -1,8 +1,8 @@
-import Benefits from '@/components/Benefits/Benefits';
-import Benefitstwo from '@/components/Benefitstwo/Benefitstwo';
-import BrandDiffer from '@/components/BrandDiffer/BrandDiffer';
-import GetInTouch from '@/components/GetInTouch/GetInTouch';
-import Idea from '@/components/Idea/Idea';
+import Benefits from '@/components/globalcomponents/Benefits/Benefits';
+import Benefitstwo from '@/components/globalcomponents/Benefitstwo/Benefitstwo';
+import BrandDiffer from '@/components/globalcomponents/BrandDiffer/BrandDiffer';
+import GetInTouch from '@/components/globalcomponents/GetInTouch/GetInTouch';
+import Idea from '@/components/globalcomponents/Idea/Idea';
 import React from 'react';
 
 const About = () => {

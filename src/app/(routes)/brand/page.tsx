@@ -1,9 +1,9 @@
 import React from "react";
 import Image from "next/image";
-import BrandDiffer from "@/components/BrandDiffer/BrandDiffer";
+import BrandDiffer from "@/components/globalcomponents/BrandDiffer/BrandDiffer";
 import Product from "@/components/Product/Product";
 
-import Benefitstwo from "@/components/Benefitstwo/Benefitstwo";
+import Benefitstwo from "@/components/globalcomponents/Benefitstwo/Benefitstwo";
 
 const Brand = () => {
   return (

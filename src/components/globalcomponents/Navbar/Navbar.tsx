@@ -26,13 +26,13 @@ const Navbar = () => {
               <Link href="/">Home</Link>
             </li>
             <li>
+              <Link href="/product">Products</Link>
+            </li>
+            <li>
               <Link href="/about">About Us</Link>
             </li>
             <li>
               <Link href="#">Contact</Link>
-            </li>
-            <li>
-              <Link href="#">Blog</Link>
             </li>
           </ul>
         </nav>
@@ -40,18 +40,18 @@ const Navbar = () => {
         {isOpen && (
           <nav className=" md:block lg:hidden">
             <ul className="flex flex-col font-serif text-start items-center gap-4 mt-10 bg-white text-black absolute left-0 right-20 w-[70%] h-full  rounded-lg shadow-lg">
-              <li>
-                <Link href="/">Home</Link>
-              </li>
-              <li>
-                <Link href="/about">About Us</Link>
-              </li>
-              <li>
-                <Link href="#">Contact</Link>
-              </li>
-              <li>
-                <Link href="#">Blog</Link>
-              </li>
+            <li>
+              <Link href="/">Home</Link>
+            </li>
+            <li>
+              <Link href="/product">Products</Link>
+            </li>
+            <li>
+              <Link href="/about">About Us</Link>
+            </li>
+            <li>
+              <Link href="#">Contact</Link>
+            </li>
             </ul>
           </nav>
         )}
@@ -73,29 +73,27 @@ const Navbar = () => {
 
       <div className="p-5 mt-0  bg-[#F9F9F9] hidden md:hidden lg:block">
         <ul className="flex text-center justify-center gap-5 font-serif">
+          
           <li>
-            <Link href={"/brand"}>All Furniture</Link>
+            <Link href={"/products"}>Plant pots</Link>
           </li>
           <li>
-            <Link href={"#"}>Plant pots</Link>
+            <Link href={"/products"}>Ceramics</Link>
           </li>
           <li>
-            <Link href={"#"}>Ceramics</Link>
+            <Link href={"/products"}>Tables</Link>
           </li>
           <li>
-            <Link href={"#"}>Tables</Link>
+            <Link href={"/products"}>Chairs</Link>
           </li>
           <li>
-            <Link href={"/dandychair"}>Chairs</Link>
+            <Link href={"/products"}>Crockery</Link>
           </li>
           <li>
-            <Link href={"#"}>Crockery</Link>
+            <Link href={"/products"}>Tableware</Link>
           </li>
           <li>
-            <Link href={"#"}>Tableware</Link>
-          </li>
-          <li>
-            <Link href={"#"}>Cutlery</Link>
+            <Link href={"/products"}>Cutlery</Link>
           </li>
         </ul>
       </div>
