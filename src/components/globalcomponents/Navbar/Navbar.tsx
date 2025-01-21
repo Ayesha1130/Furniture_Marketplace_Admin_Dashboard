@@ -8,6 +8,7 @@ import { useState } from "react";
 import { IoMdMenu } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
 import Link from "next/link";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -18,7 +19,7 @@ const Navbar = () => {
   return (
     <>
       <header className="flex justify-between p-4 items-center  ">
-        <h1 className="mt-0 text-[#22202E] ml-10 text-xl">Avion</h1>
+        <h1 className="mt-0 text-[#22202E] ml-10 text-xl font-serif">Avion</h1>
 
         <nav className="hidden md:hidden lg:block ">
           <ul className="flex flex-row  justify-center gap-8 font-serif ">
@@ -28,11 +29,12 @@ const Navbar = () => {
             <li>
               <Link href="/product">Products</Link>
             </li>
+           
             <li>
               <Link href="/about">About Us</Link>
             </li>
             <li>
-              <Link href="#">Contact</Link>
+              <Link href="/contact">Contact</Link>
             </li>
           </ul>
         </nav>
@@ -46,6 +48,7 @@ const Navbar = () => {
             <li>
               <Link href="/product">Products</Link>
             </li>
+           
             <li>
               <Link href="/about">About Us</Link>
             </li>
@@ -56,6 +59,7 @@ const Navbar = () => {
           </nav>
         )}
         <div className="flex gap-4 pr-10">
+        
           <CiSearch size={20} />
           <Link href={'/cart'}><MdOutlineShoppingCart size={20} /></Link>
 
@@ -74,26 +78,26 @@ const Navbar = () => {
       <div className="p-5 mt-0  bg-[#F9F9F9] hidden md:hidden lg:block">
         <ul className="flex text-center justify-center gap-5 font-serif">
           
+        <li>
+              <Link href="/popularproducts">Popular Product</Link>
+            </li>
           <li>
-            <Link href={"/products"}>Plant pots</Link>
+            <Link href={"/categoryproduct"}>Best Selling Product</Link>
           </li>
           <li>
-            <Link href={"/products"}>Ceramics</Link>
+            <Link href={"/brand"}>Brand</Link>
           </li>
           <li>
-            <Link href={"/products"}>Tables</Link>
+            <Link href={"/product"}>Chairs</Link>
           </li>
           <li>
-            <Link href={"/products"}>Chairs</Link>
+            <Link href={"/product"}>Crockery</Link>
           </li>
           <li>
-            <Link href={"/products"}>Crockery</Link>
+            <Link href={"/product"}>Tableware</Link>
           </li>
           <li>
-            <Link href={"/products"}>Tableware</Link>
-          </li>
-          <li>
-            <Link href={"/products"}>Cutlery</Link>
+            <Link href={"/product"}>Cutlery</Link>
           </li>
         </ul>
       </div>

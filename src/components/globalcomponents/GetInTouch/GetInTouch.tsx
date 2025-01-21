@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const GetInTouch = () => {
   return (
@@ -14,7 +15,6 @@ const GetInTouch = () => {
           className="w-full object-cover"
         />
       </div>
-
       <div className=" bg-[#F9F9F9] p-6 flex flex-col justify-start w-full lg:w-1/2  text-black ">
         <div className="text-start space-y-4 p-4 ">
           <h1 className="text-2xl font-serif">
@@ -32,13 +32,14 @@ const GetInTouch = () => {
           </p>
         </div>
         <div className="mt-60  justify-start flex">
-          <button className=" py-[16px] px-[32px] text-start  border border-gray-300 focus:outline-none">
+          <Link href={'/contact'}>
+          <button className=" py-[16px] px-[32px] text-start  border border-gray-900 focus:outline-none">
             Get In Touch
           </button>
+          </Link>
         </div>
       </div>
     </div>
   );
 };
-
 export default GetInTouch;

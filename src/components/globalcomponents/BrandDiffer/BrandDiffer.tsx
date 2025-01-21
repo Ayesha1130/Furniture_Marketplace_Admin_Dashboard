@@ -2,7 +2,6 @@ import React from "react";
 import { CiDeliveryTruck, CiCircleCheck } from "react-icons/ci";
 import { MdOutlinePriceChange } from "react-icons/md";
 import { PiFlowerTulip } from "react-icons/pi";
-
 const BrandDiffer = () => {
   return (
     <div className="mt-32 justify-center items-center">

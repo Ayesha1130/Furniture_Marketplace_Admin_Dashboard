@@ -1,7 +1,5 @@
-import React from "react";
-import Image from "next/image";
+import React from "react"
 import Link from "next/link";
-
 const Hero = () => {
   return (
     <div className="bg-[url(/images/heropic.jpg)] bg-cover bg-center h-screen ">
@@ -15,7 +13,6 @@ const Hero = () => {
               Shop the new Spring 2022 collection today
             </p>
           </div>
-
           <div className="pt-10">
             <Link
               href="/allproduct"

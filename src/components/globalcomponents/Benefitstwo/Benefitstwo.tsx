@@ -1,5 +1,4 @@
 import React from "react";
-
 const Benefitstwo = () => {
   return (
     <div className="bg-[#F9F9F9] mt-40 h-[444px]">

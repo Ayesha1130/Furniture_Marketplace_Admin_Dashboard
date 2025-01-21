@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-
 const Idea = () => {
   return (
     <div className="flex flex-col lg:flex-row gap-6 px-10 mt-10 mb-10">
@@ -15,14 +14,13 @@ const Idea = () => {
         </div>
         <div className="mt-60  justify-start flex">
           <Link
-            href={"/brand"}
+            href={"/product"}
             className=" py-[16px] px-[32px] text-start  border border-gray-300 focus:outline-none"
           >
             View collection
           </Link>
         </div>
       </div>
-
       <div className="relative w-full lg:w-1/2">
         <Image
           src="/images/idea.jpg"
