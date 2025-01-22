@@ -5,15 +5,7 @@ export const product = defineType({
     title: "Product",
     type: "document",
     fields: [
-        defineField({
-            name:"category",
-            title:"Category",
-            type:"reference",
-            to:[{
-                type:"category"
-            }]
-        }
-        ),
+       
         defineField({
             name: "name",
             title: "Name",
