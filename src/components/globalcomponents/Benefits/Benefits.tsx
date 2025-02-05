@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { FaCheckCircle } from "react-icons/fa";
 
@@ -33,7 +34,7 @@ const Benefits = () => {
           className="p-3 rounded-l-md border-none text-black focus:outline-none"
         />
         <button className="bg-[#2A254B] p-3 rounded-r-md text-white">
-          Sign up
+        <Link href={'/join-us'}>Join Us</Link>
         </button>
       </div>
     </div>

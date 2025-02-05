@@ -12,7 +12,7 @@ interface Product {
   description: string;
 }
 
-export default async function ProductsPage() {
+export default async function Categoryproduct() {
   const query = `*[_type == "product"] [4..9]{
     _id, 
     name, 
@@ -28,7 +28,7 @@ export default async function ProductsPage() {
     <div className="container p-4">
        
      
-      <h1 className="text-3xl font-bold text-center mb-10 mt-9">Best Selling Products</h1>
+      <h1 className="text-3xl font-bold text-center mb-10 mt-9 ">Best Selling Products</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map((product: Product) => (
           <div
@@ -64,4 +64,5 @@ export default async function ProductsPage() {
     </div>
   );
 }
+
 

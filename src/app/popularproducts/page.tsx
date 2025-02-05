@@ -22,7 +22,7 @@ export default async function Popularproducts() {
   const products = await client.fetch(query);
   return (
     <div className="container p-4">
-      <h1 className="text-3xl font-bold text-center mb-10 mt-9">
+      <h1 className="text-3xl font-bold text-center mb-10 mt-9 ">
         Our Popular Products
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 const Benefitstwo = () => {
   return (
@@ -21,8 +22,8 @@ const Benefitstwo = () => {
                 placeholder="your@email.com"
                 className="p-3 rounded-l-md border  border-slate-500 text-black focus:outline-none w-full md:w-80 "
               />
-              <button className="bg-[#2A254B] p-3 rounded-r-md md:ml-5 lg:ml-[-50px] text-white w-[118px]">
-                Sign up
+              <button className="bg-[#2A254B] p-3 rounded-r-md md:ml-5 lg:ml-[-50px] text-white w-[118px] font-serif text-xl">
+              <Link href={'/join-us'}>Join Us</Link>
               </button>
             </div>
           </div>

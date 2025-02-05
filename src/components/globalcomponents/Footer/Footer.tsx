@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import {
   FaLinkedin,
@@ -52,7 +53,7 @@ const Footer = () => {
               className="p-3 rounded-l-md border border-gray-400 text-black  focus:outline-none w-full bg-[#2A254B]"
             />
             <button className="text-[#2A254B] p-3 rounded-r-md bg-white focus:outline-none w-[118px]">
-              Sign up
+            <Link href={'/join-us'}>Join Us</Link>
             </button>
           </div>
         </div>

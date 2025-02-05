@@ -1,157 +1,258 @@
 "use client";
-
-import { useState, useEffect } from "react";
-import Modal from "@/components/Modal";
-import { useRouter } from "next/navigation"; // useRouter for navigation
-import SuccessModal from "@/components/SuccessModal";
 import Image from "next/image";
+import { Heart, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import { FaTrashAlt, FaPlus, FaMinus } from "react-icons/fa";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
-import { toast, ToastContainer } from "react-toastify";  // Import toast and ToastContainer
-import "react-toastify/dist/ReactToastify.css";  // Import the CSS for toast notifications
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { userPostSanity } from "@/services/userId";
+import { Suspense } from "react";
 
-interface Product {
-  imageUrl: string | StaticImport;
-  id: number;
-  title: string;
-  price: number;
-  image: string;
+interface Iproduct {
+  name: string;
+  price: string;
+  description: string;
+  imageUrl: string;
   quantity: number;
+  userID: string | null | undefined;
 }
 
-const Cart = () => {
-  const [cart, setCart] = useState<Product[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalOpen2, setIsModalOpen2] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    address: "",
-  });
-  const router = useRouter(); // Initialize router for navigation
+async function getUserId() {
+  try {
+    return await userPostSanity();
+  } catch (error) {
+    console.error("Error fetching user ID", error);
+    return null;
+  }
+}
+
+function ShoppingCartComponent() {
+  const router = useRouter();
+  const searchParam = useSearchParams();
+  const [cartItem, setCartItem] = useState<Iproduct[]>([]);
 
   useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart") || "[]");
-    setCart(storedCart);
+    if (typeof window !== "undefined") {
+      const cart = localStorage.getItem("cart");
+      const updatedCart = cart ? JSON.parse(cart) : [];
+      setCartItem(updatedCart);
+    }
   }, []);
 
-  const handleRemoveFromCart = (id: number) => {
-    // Filter the cart to remove the item with the given id
-    const updatedCart = cart.filter((item) => item.id !== id);
-    
-    if (updatedCart.length === cart.length) {
-      console.warn("Product not found in the cart!");
-    }
+  useEffect(() => {
+    async function handleSearchParams() {
+      const sanityUserId = await getUserId();
+      const cart = localStorage.getItem("cart");
+      const updatedCart = cart ? JSON.parse(cart) : [];
 
-    // Update the cart in state and localStorage
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-    toast.success("Item removed from cart!");  // Show success toast notification
-  };
+      const name = searchParam.get("name");
+      const price = searchParam.get("price");
+      const description = searchParam.get("description");
+      const image = searchParam.get("image");
 
-  const handleQuantityChange = (id: number, delta: number) => {
-    const updatedCart = cart.map((item) => {
-      if (item.id === id) {
-        const newQuantity = item.quantity + delta;
-        if (newQuantity > 0) {
-          return { ...item, quantity: newQuantity };
+      if (name && price && description && image) {
+        const isDuplicate = updatedCart.some((item: Iproduct) => item.name === name);
+        if (!isDuplicate) {
+          updatedCart.push({ name, price, description, image, quantity: 1, userID: sanityUserId });
         }
+
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        setCartItem(updatedCart);
+        router.replace("/cart");
       }
-      return item;
-    });
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.name || !form.email || !form.address) {
-      alert("All fields are required.");
-      return;
     }
 
-    setIsModalOpen(false);
-    setIsModalOpen2(true);
-    setSuccessMessage("Your Order Successfully Placed");
+    handleSearchParams();
+  }, [searchParam, router]);
 
-    // Clear cart from localStorage and state
-    setCart([]);
-    localStorage.removeItem("cart");
+  function handleRemoveItem(index: number) {
+    const removeCard = [...cartItem];
+    removeCard.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(removeCard));
+    setCartItem(removeCard);
+  }
 
-    // Optional: Delay redirect for user confirmation
-    setTimeout(() => {
-      router.push("/thankyoupage"); // Redirect after 3 seconds
-    }, 3000);
-  };
+  function handleQuantity(index: number, e_target_value: number) {
+    if (e_target_value < 1) return; // Prevent negative or zero quantities
+    const copyWalaArray = [...cartItem];
+    copyWalaArray[index].quantity = e_target_value;
+    localStorage.setItem("cart", JSON.stringify(copyWalaArray));
+    setCartItem(copyWalaArray);
+  }
 
-  const getTotalPrice = () => {
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
-  };
+  function handleWishList(index: number) {
+    const wishListArray = [...cartItem];
+    const local_WishList = localStorage.getItem("wishlist");
+    const updatedWishList = local_WishList ? JSON.parse(local_WishList) : [];
+    const itemExists = updatedWishList.some((item: { name: string; }) => item.name === wishListArray[index].name);
+
+    if (!itemExists) {
+      updatedWishList.push(wishListArray[index]);
+      localStorage.setItem("wishlist", JSON.stringify(updatedWishList));
+    }
+  }
+
+  const total = cartItem.length > 0
+    ? cartItem.reduce((total, object) => total + (+object.price * object.quantity), 0)
+    : 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-100 to-blue-300 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Your Shopping Cart</h1>
-        {cart.length === 0 ? (
-          <>
-            <div className="text-center text-xl text-gray-600">Your Cart Is Empty</div>
-            <div className="flex justify-center w-full mt-8">
-              <Link href={"/products"}>
-                <button className="bg-yellow-500 text-white font-semibold py-2 px-4 rounded-md">
-                  Continue Shopping
-                </button>
-              </Link>
-            </div>
-          </>
-        ) : (
-          <div className="bg-white shadow-xl rounded-xl p-6 mb-8 space-y-6">
-            {cart.map((product) => (
-              <div key={product.id} className="flex items-center justify-between border-b pb-6 transition hover:shadow-lg rounded-lg p-4 hover:bg-gray-50">
-                <div className="flex items-center gap-6">
-                  <Image src={product.imageUrl} alt={product.title} width={100} height={100} className="rounded-lg border object-cover" />
-                  <div className="flex flex-col">
-                    <h2 className="text-sm font-semibold text-gray-800">{product.title}</h2>
-                    <p className="text-sm text-gray-600">Price: ${product.price.toFixed(2)}</p>
-                    <div className="flex items-center space-x-4 gap-2">
-                      <button onClick={() => handleQuantityChange(product.id, -1)} disabled={product.quantity === 1} className="bg-gray-400 px-2 rounded-md text-white">
-                        <FaMinus />
-                      </button>
-                      <span className="text-lg font-medium">{product.quantity}</span>
-                      <button onClick={() => handleQuantityChange(product.id, 1)} className="bg-yellow-500 px-2 rounded-md text-white">
-                        <FaPlus />
-                      </button>
+    <div className="container mx-auto px-4 py-8 mt-[99px]">
+      {/* Free Delivery Banner */}
+      <div className="mb-8 bg-gray-50 p-4 rounded-lg">
+        <div className="flex items-center gap-2">
+          <p className="text-sm font-medium">Free Delivery</p>
+          <p className="text-sm text-gray-600">
+            Applies to orders of ₹ 14,000.00 or more.
+          </p>
+          <Link href={"/shipment"}>
+            <Button variant="link" className="text-sm">
+              View details
+            </Button>
+          </Link>
+        </div>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2">
+          <h1 className="text-2xl font-medium mb-6">My Cart</h1>
+
+          {/* Cart Items */}
+          <div className="space-y-6">
+            {cartItem.map((item: Iproduct, index: number) => (
+              <Card key={index}>
+                <CardContent className="p-6">
+                  <div className="flex gap-6">
+                    <div className="w-24 h-24 bg-gray-100 rounded-md">
+                      <Image
+                        src={item.imageUrl}
+                        alt={item.name}
+                        width={96}
+                        height={96}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex justify-between">
+                        <div>
+                          <h3 className="font-medium">{item.name}</h3>
+                          <p className="text-sm text-gray-600">
+                            {item.userID || "User not available"}
+                          </p>
+                          <div className="mt-2 space-y-1">
+                            <p className="text-sm">Size: L</p>
+                            <div className="flex gap-4">
+                              <p className="text-sm">Quantity:</p>
+                              <input
+                                className="bg-slate-200 rounded pl-2 text-black w-12"
+                                type="number"
+                                min={1}
+                                value={item.quantity}
+                                onChange={(e) => handleQuantity(index, +e.target.value)}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <p className="text-sm">
+                          MRP: ₹ {(+item.price * item.quantity).toLocaleString()}
+                        </p>
+                      </div>
+                      <div className="flex gap-4 mt-4">
+                        <Button variant="ghost" size="sm" onClick={() => handleWishList(index)}>
+                          <Heart className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm" onClick={() => handleRemoveItem(index)}>
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <button
-                  onClick={() => handleRemoveFromCart(product.id)}
-                  className="text-gray-500 hover:text-red-600"
-                >
-                  <FaTrashAlt />
-                </button>
-              </div>
+                </CardContent>
+              </Card>
             ))}
-            <div className="flex justify-between items-center py-4 border-t">
-              <div className="text-lg font-semibold">Total: ${getTotalPrice().toFixed(2)}</div>
-              <button onClick={() => setIsModalOpen(true)} className="bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600">
-                Checkout
-              </button>
+          </div>
+
+          {/* Favourites */}
+          <div className="mt-12">
+            <h2 className="text-xl font-medium mb-4">Favourites</h2>
+            <p className="text-sm text-gray-600">
+              There are no items saved to your favourites.
+            </p>
+          </div>
+
+          {/* You Might Also Like */}
+          <div className="mt-12">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-medium">You Might Also Like</h2>
+              <div className="flex gap-2">
+                <Button variant="outline" size="icon">
+                  <ChevronLeft className="w-4 h-4" />
+                </Button>
+                <Button variant="outline" size="icon">
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <Card>
+                <CardContent className="p-0">
+                  <div className="aspect-square bg-gray-100">
+                    <Image
+                      src="/images/get.jpg"
+                      alt="Sofa"
+                      width={400}
+                      height={400}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-medium">Sofa 3 Seater with Adjustable Height</h3>
+                    <p className="text-sm text-gray-600">Home&apos;s Furniture</p>
+                    <p className="text-sm font-medium mt-2">MRP: ₹ 12,295.00</p>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
-        )}
+        </div>
+
+        {/* Summary */}
+        <div>
+          <Card className="sticky top-8">
+            <CardContent className="p-6">
+              <h2 className="text-xl font-medium mb-4">Summary</h2>
+              <div className="space-y-4">
+                <div className="flex justify-between">
+                  <span className="text-sm">Subtotal</span>
+                  <span className="text-sm">₹ {total.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm">Estimated Delivery & Handling</span>
+                  <span className="text-sm">Free</span>
+                </div>
+                <Separator />
+                <div className="flex justify-between font-medium">
+                  <span>Total</span>
+                  <span>₹ {total.toLocaleString()}</span>
+                </div>
+              </div>
+              <Link href="/checkout">
+                <Button className="w-full mt-6">Proceed to Checkout</Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </div>
       </div>
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={handleSubmit} cart={cart} form={form} handleInputChange={handleInputChange} />
-      <SuccessModal isOpen={isModalOpen2} onClose={() => setIsModalOpen2(false)} message={successMessage} vCart={true} />
-      <ToastContainer position="top-center" autoClose={3000} />  {/* Display toast notifications */}
     </div>
   );
-};
+}
 
-export default Cart;
+export default function ShoppingCart() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ShoppingCartComponent />
+    </Suspense>
+  );
+}

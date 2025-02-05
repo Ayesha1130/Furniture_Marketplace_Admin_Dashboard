@@ -15,7 +15,7 @@ const Hero = () => {
           </div>
           <div className="pt-10">
             <Link
-              href="/allproduct"
+              href="/product"
               className="bg-[#FFFFFF]  py-[15px] px-[32px] text-center border border-gray-300 hover:bg-[#F1F1F1] focus:outline-none"
             >
               View collection

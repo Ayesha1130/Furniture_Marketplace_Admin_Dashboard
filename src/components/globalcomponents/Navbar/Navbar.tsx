@@ -1,13 +1,16 @@
 "use client";
 import React from "react";
-import { CiSearch } from "react-icons/ci";
-import { MdOutlineShoppingCart } from "react-icons/md";
+import { CiHeart } from "react-icons/ci";
+
+import { MdOutlineShoppingCart, MdSignalWifiConnectedNoInternet2 } from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa";
 
 import { useState } from "react";
 import { IoMdMenu } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
 import Link from "next/link";
+import AuthStatus from "@/components/AuthStatus";
+
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,6 +40,8 @@ const Navbar = () => {
               <Link href="/contact">Contact</Link>
             </li>
           </ul>
+       
+       
         </nav>
 
         {isOpen && (
@@ -60,10 +65,11 @@ const Navbar = () => {
         )}
         <div className="flex gap-4 pr-10">
         
-          <CiSearch size={20} />
+          <Link href={'/wishlist'}><CiHeart size={20} /></Link>
           <Link href={'/cart'}><MdOutlineShoppingCart size={20} /></Link>
 
           <Link href={'/'}><FaUserCircle size={20} /></Link>
+
 
           <button title="button" onClick={toggleMenu}>
             {!isOpen ? (
@@ -72,6 +78,10 @@ const Navbar = () => {
               <RxCross2 size={20} className="md:block lg:hidden" />
             )}
           </button>
+           <Link href={'/join-us'} className="font-serif font-bold">Join Us</Link>
+              <AuthStatus/>
+            
+          
         </div>
       </header>
 
