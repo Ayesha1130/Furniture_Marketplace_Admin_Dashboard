@@ -5,7 +5,7 @@ import {
   ClerkProvider,
   
 } from '@clerk/nextjs';
-import Banner from "@/components/globalcomponents/Banner/Banner";
+
 import Footer from "@/components/globalcomponents/Footer/Footer";
 import Navbar from "@/components/globalcomponents/Navbar/Navbar";
 
@@ -28,7 +28,7 @@ export default function RootLayout({
     <ClerkProvider>
     <html lang="en">
       <body>
-        <Banner/>
+
         <Navbar/>
         {children}
         <Footer/>

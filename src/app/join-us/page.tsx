@@ -1,6 +1,7 @@
 // src\app\join-us\page.tsx
 "use client"
 
+import AuthStatus from "@/components/AuthStatus"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -102,7 +103,7 @@ export default function NikeSignupForm() {
             <div className="text-center text-sm">
               <span className="text-muted-foreground">Already a Member? </span>
               <Link href="#" className="underline">
-                Sign In
+                <AuthStatus/>
               </Link>
             </div>
           </div>

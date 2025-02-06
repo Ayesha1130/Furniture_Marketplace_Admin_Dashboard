@@ -2,7 +2,7 @@
 // src\services\create.ts
 import { client } from "@/sanity/lib/client";
 
-// --------------------------------------------------------------fetch
+//fetch
 export const myFetch = async (blog_id: string) => {
   try {
     const comments = await client.fetch(
@@ -15,7 +15,7 @@ export const myFetch = async (blog_id: string) => {
   }
 };
 
-// --------------------------------------------------------------create
+// create
 interface Comment {
   name: string;
   email: string;
@@ -37,7 +37,7 @@ export const createComment = async (newComment: Comment) => {
   }
 };
 
-// --------------------------------------------------------------Update
+// Update
 export const updateComment = async (_id: string, UpdatedComment: Comment) => {
   try {
     await client
@@ -56,7 +56,7 @@ export const updateComment = async (_id: string, UpdatedComment: Comment) => {
   }
 };
 
-// --------------------------------------------------------------Delete
+// Delete
 export const deleteComment = async (_id: string, paramsId: string) => {
   try {
     await client.delete(_id);

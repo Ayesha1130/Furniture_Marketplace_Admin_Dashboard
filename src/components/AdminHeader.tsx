@@ -1,6 +1,5 @@
 "use client"
-import { Bell, LayoutDashboard, Search } from "lucide-react"
-import Image from "next/image"
+import { LayoutDashboard, Search } from "lucide-react"
 import { useEffect, useState } from "react"
 
 
